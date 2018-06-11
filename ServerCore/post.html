@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Api 测试</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://v3.bootcss.com/examples/signin/signin.css"/>
+</head>
+<body>
+<div class="container">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading">Api 测试</h2>
+        <select id="selectApi" class="form-control">
+            <option>/Api/loginPhone.ashx</option>
+            <option>/Api/loginFace.ashx</option>
+            <option>/Api/getCode.ashx</option>
+            <option>/Api/registerFace.ashx</option>
+            <option>/Api/getUserInRegister.ashx</option>
+            <option>/Api/modifyRegister.ashx</option>
+            <option>/Api/deleteRegister.ashx</option>
+            <option>/Api/acceptRegister.ashx</option>
+            <option>/Api/clientRecognition.ashx</option>
+            <option>/Api/faceDetect.ashx</option>
+            <option>/Api/getUserRegisterBy.ashx</option>
+            <option>/Api/modifyRegisterBy.ashx</option>
+            <option>/Api/deleteRegisterBy.ashx</option>
+        </select>
+        <textarea id="textAreaProp" class="form-control" style="height: 150px; margin-top: 10px;"></textarea>
+        <button id="submitButton" class="btn btn-lg btn-primary btn-block" type="button" style="margin: 10px 0 10px;">发送</button>
+        <label for="textAreaResult" class="sr-only">请求结果</label>
+        <textarea id="textAreaResult" class="form-control" style="height: 150px;"></textarea>
+    </form>
+
+</div> <!-- /container -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+    $('#textAreaProp').val('para1: int\n' +
+        'para2: string\n' +
+        '//参数不论类型，都不加引号\n' +
+        '//参数名/值的前后空格都会被忽略\n' +
+        '//参数名相同只取最后一个的参数值');
+    $('#submitButton').bind('click',
+        function() {
+            var paras = $('#textAreaProp').val();
+            paras = paras.split('\n');
+            var postParas = {};
+            for (var i = 0; i < paras.length; ++i) {
+                var para = paras[i].split(':');
+                if (para.length === 1) {
+                    continue;
+                }
+                var paraName = para[0].trim();
+                var paraVal = para[1].trim();
+                postParas[paraName] = paraVal;
+            }
+            $('#textAreaResult').val('请求中...');
+            $.post(location.href.replace('/post.html', $('#selectApi').val()),
+                postParas,
+                function(result) {
+                    $('#textAreaResult').val(result);
+                },
+                'text').error(function(error) {
+                $('#textAreaResult').val(error.status + ' 错误');
+            });
+        });
+</script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

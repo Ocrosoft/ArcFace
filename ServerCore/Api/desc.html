@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Api 说明</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://v3.bootcss.com/examples/signin/signin.css"/>
+</head>
+<body style="font-family: '微软雅黑'">
+<div class="container" style="width: 80%;">
+
+    <form class="form-signin" style="max-width: 100%;">
+        <h2 class="form-signin-heading">Api 说明</h2>
+        <select id="selectApi" class="form-control">
+            <option>/Api/loginPhone.ashx</option>
+            <option>/Api/loginFace.ashx</option>
+            <option>/Api/getCode.ashx</option>
+            <option>/Api/registerFace.ashx</option>
+            <option>/Api/getUserInRegister.ashx</option>
+            <option>/Api/modifyRegister.ashx</option>
+            <option>/Api/deleteRegister.ashx</option>
+            <option>/Api/acceptRegister.ashx</option>
+            <option>/Api/clientRecognition.ashx</option>
+            <option>/Api/faceDetect.ashx</option>
+            <option>/Api/getUserRegisterBy.ashx</option>
+            <option>/Api/modifyRegisterBy.ashx</option>
+            <option>/Api/deleteRegisterBy.ashx</option>
+        </select>
+        <h3>功能：</h3>
+        <p id="function"></p>
+        <h3>参数：</h3>
+        <p id="parameter"></p>
+        <h3>返回值：</h3>
+        <p id="returnValue"></p>
+        <h3>其他</h3>
+        <p id="others"></p>
+    </form>
+
+</div> <!-- /container -->
+<p style="display: none;">
+    手机登录<br>
+    ###
+    {<br>
+    string phone: 手机号码<br>
+    string code: 手机验证码<br>
+    }<br>
+    ###
+    {<br>
+    int code：错误代码<br>
+    string message：错误信息<br>
+    struct data：<br>
+    &nbsp;&nbsp;{<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;bool firstLogin: 是否首次登录<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;int userid: 用户Id<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;string name: 姓名<br>
+    &nbsp;&nbsp;}<br>
+    }<br>
+    错误代码：<br>
+    0x00 - 处理完成<br>
+    0x0X - 非法请求<br>
+    --0x01 - 非POST请求<br>
+    --0x02 - 权限不足<br>
+    --0x03 - 参数错误<br>
+    ###
+    无<br>
+    ###
+    注册人脸<br>
+    ###
+    {<br>
+    string code: 邀请码，业主注册无该参数<br>
+    string name: 姓名，业主注册无该参数<br>
+    [string phone]: 手机，业主注册无该参数<br>
+    string facesImage: base64编码的图片<br>
+    }<br>
+    ###
+    {<br>
+    int code：错误代码<br>
+    string message：错误信息<br>
+    struct data：没有含义<br>
+    }<br>
+    错误代码：<br>
+    0x00 - 处理完成<br>
+    0x0X - 非法请求<br>
+    --0x01 - 非POST请求<br>
+    --0x02 - 权限不足<br>
+    --0x03 - 参数错误<br>
+    --0x04 - 邀请码不存在<br>
+    0x1X - 照片问题<br>
+    --0x11 - 没有人脸<br>
+    --0x12 - 多张人脸<br>
+    0x2X - 系统错误<br>
+    --0x21 - 引擎初始化错误<br>
+    ----0x211 - 检测引擎初始化错误<br>
+    ----0x212 - 识别引擎初始化错误<br>
+    --0x22 - 检测函数错误<br>
+    --0x23 - 识别函数错误<br>
+    --0x24 - 保存失败<br>
+    ###
+    注册后5分钟内生效，所以马上调用人脸识别可能会找不到匹配<br>
+    <br>
+    ###
+    人脸登录<br>
+    ###
+    {<br>
+    string facesImage: base64编码的图片<br>
+    }<br>
+    ###
+    {<br>
+    int code：错误代码<br>
+    string message：错误信息<br>
+    object data：<br>
+    &nbsp;&nbsp;{<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;int userId：用户Id<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;string name：姓名<br>
+    &nbsp;&nbsp;}<br>
+    }<br>
+    错误代码：<br>
+    0x00 - 处理完成<br>
+    0x0X - 非法请求<br>
+    --0x01 - 非POST请求<br>
+    --0x02 - 参数错误<br>
+    --0x03 - mac地址不在数据库中<br>
+    0x1? - 照片问题<br>
+    --0x11 - 没有人脸<br>
+    --0x12 - 多张人脸<br>
+    0x2? - 系统错误<br>
+    --0x21 - 引擎初始化错误<br>
+    ----0x211 - 检测引擎初始化错误<br>
+    ----0x212 - 识别引擎初始化错误<br>
+    --0x22 - 检测函数错误<br>
+    --0x23 - 识别函数错误<br>
+    --0x24 - 比较函数错误<br>
+    ###
+    0x03错误时，到数据库的client表中添加自己的mac地址，5分钟内生效<br>
+    ###
+    获取邀请码<br>
+    ###
+    无<br>
+    ###
+    {<br>
+    int code：错误代码<br>
+    string message：错误信息<br>
+    struct data：<br>
+    &nbsp;&nbsp;{<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;string code：邀请码<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;int userId：用户Id<br>
+    &nbsp;&nbsp;}<br>
+    }<br>
+    错误代码：<br>
+    0x00 - 处理完成<br>
+    0x0X - 非法请求<br>
+    --0x01 - 非POST请求<br>
+    --0x02 - 权限不足<br>
+    ###
+    无<br>
+    ###
+    获取该账号邀请的，等待确认的用户<br>
+    ###
+    无参数<br>
+    ###
+    {<br>
+    int code：错误代码<br>
+    string message：错误信息<br>
+    struct data：<br>
+    &nbsp;&nbsp;{<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;int id: 待确认用户Id，与用户Id完全不是一回事<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;string name: 姓名<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;int privilegeId: 权限Id<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;string inTime: 注册时间<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;int validDays: 有效时间，仅针对访客<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;int allowRegister: 是否继承开放邀请码权限，0否，1是<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;string phone: 手机号码<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;string faceImage: base64编码的脸部照片<br>
+    &nbsp;&nbsp;}<br>
+    }<br>
+    错误代码：<br>
+    0x00 - 处理完成<br>
+    0x0X - 非法请求<br>
+    --0x01 - 非POST请求<br>
+    --0x02 - 权限不足<br>
+    ###
+    无<br>
+    ###
+    修改一个待确认注册用户的部分信息<br>
+    ###
+    {<br>
+    int userId: 要修改的用户Id<br>
+    [string name]: 姓名<br>
+    [int privilege]: 权限Id<br>
+    [int validDays]: 有效时间<br>
+    [int allowRegister]：是否允许邀请，0否，1是<br>
+    }<br>
+    ###
+    {<br>
+    int code：错误代码<br>
+    string message：错误信息<br>
+    struct data：没有意义<br>
+    }<br>
+    错误代码：<br>
+    0x00：处理完成<br>
+    0x0X - 非法请求<br>
+    --0x01 - 非POST请求<br>
+    --0x02 - 权限不足<br>
+    --0x03 - 参数错误<br>
+    0x1X - 服务器错误<br>
+    --0x10 - 服务器错误<br>
+    ###
+    无<br>
+    ###
+    删除一个待确认注册用户<br>
+    ###
+    {<br>
+    int userId：要删除的用户Id<br>
+    }<br>
+    ###
+    {<br>
+    int code：错误代码<br>
+    string message：错误信息<br>
+    struct data：没有意义<br>
+    }<br>
+    错误代码：<br>
+    0x00：处理完成<br>
+    0x0X - 非法请求<br>
+    --0x01 - 非POST请求<br>
+    --0x02 - 权限不足<br>
+    --0x03 - 参数错误<br>
+    0x1X - 服务器错误<br>
+    --0x10 - 服务器错误<br>
+    ###
+    无
+</p>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    var data =
+        '手机登录<br>###{<br>string phone: 手机号码<br>string code: 手机验证码<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;bool firstLogin: 是否首次登录<br>&nbsp;&nbsp;&nbsp;&nbsp;int userid: 用户Id<br>&nbsp;&nbsp;&nbsp;&nbsp;string name: 姓名<br>&nbsp;&nbsp;}<br>}<br>错误代码：<br>0x00 - 处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>--0x03 - 参数错误<br>###无<br>###人脸登录<br>###{<br>string facesImage: base64编码的图片<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>object data：<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;int userId：用户Id<br>&nbsp;&nbsp;&nbsp;&nbsp;string name：姓名<br>&nbsp;&nbsp;}<br>}<br>错误代码：<br>0x00 - 处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 参数错误<br>0x1? - 照片问题<br>--0x11 - 没有人脸<br>--0x12 - 多张人脸<br>0x2? - 系统错误<br>--0x21 - 引擎初始化错误<br>----0x211 - 检测引擎初始化错误<br>----0x212 - 识别引擎初始化错误<br>--0x22 - 检测函数错误<br>--0x23 - 识别函数错误<br>--0x24 - 比较函数错误<br>###无###获取邀请码<br>###无<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;string code：邀请码<br>&nbsp;&nbsp;&nbsp;&nbsp;int userId：用户Id<br>&nbsp;&nbsp;}<br>}<br>错误代码：<br>0x00 - 处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>###无<br>###注册人脸<br>###1.当前登录用户注册自己的脸部信息<br>{<br>string facesImage：base64编码的图片<br>}<br>2.当前登录用户添加一个新的用户<br>{<br>string name：姓名<br>int privilege：权限Id<br>int allowRegister：是否允许注册<br>string facesImage：base64编码的图片<br>[int validDays：有效时间，如果privilege为3则必需]<br>[string phone]：手机<br>}<br>3.邀请注册<br>{<br>string code: 邀请码<br>string name: 姓名<br>string facesImage: base64编码的图片<br>[string phone]: 手机<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：没有含义<br>}<br>错误代码：<br>0x00 - 处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>--0x03 - 参数错误<br>--0x04 - 邀请码不存在<br>0x1X - 照片问题<br>--0x11 - 没有人脸<br>--0x12 - 多张人脸<br>0x2X - 系统错误<br>--0x21 - 引擎初始化错误<br>----0x211 - 检测引擎初始化错误<br>----0x212 - 识别引擎初始化错误<br>--0x22 - 检测函数错误<br>--0x23 - 识别函数错误<br>--0x24 - 保存失败<br>###注册后5分钟内生效，所以马上调用人脸识别可能会找不到匹配<br>###获取该账号邀请的，等待确认的用户<br>###无参数<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;int id: 待确认用户Id，与用户Id完全不是一回事<br>&nbsp;&nbsp;&nbsp;&nbsp;string name: 姓名<br>&nbsp;&nbsp;&nbsp;&nbsp;int privilege: 权限Id<br>&nbsp;&nbsp;&nbsp;&nbsp;string inTime: 注册时间<br>&nbsp;&nbsp;&nbsp;&nbsp;int validDays: 有效时间，仅针对访客<br>&nbsp;&nbsp;&nbsp;&nbsp;int allowRegister: 是否继承开放邀请码权限<br>&nbsp;&nbsp;&nbsp;&nbsp;string phone: 手机号码<br>&nbsp;&nbsp;&nbsp;&nbsp;string faceImage: base64编码的脸部照片<br>&nbsp;&nbsp;}<br>}<br>错误代码：<br>0x00 - 处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>###无<br>###修改一个待确认注册用户的部分信息<br>###{<br>int userId: 要修改的用户Id<br>[string name]: 姓名<br>[int privilege]: 权限Id<br>[int validDays]: 有效时间<br>[int allowRegister]：是否允许邀请，0否，1是<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：没有意义<br>}<br>错误代码：<br>0x00：处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>--0x03 - 参数错误<br>0x1X - 服务器错误<br>--0x10 - 修改失败，可能用户不存在<br>###无<br>###删除一个待确认注册用户<br>###{<br>int userId：要删除的用户Id<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：没有意义<br>}<br>错误代码：<br>0x00：处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>--0x03 - 参数错误<br>0x1X - 服务器错误<br>--0x10 - 删除失败，可能用户不存在<br>###无###确认邀请所有用户<br>###无参数###{<br>int code：错误代码<br>string message：错误信息<br>struct data：没有意义<br>}<br>错误代码：<br>0x00：处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>--0x03 - 参数错误<br>0x1X - 服务器错误<br>--0x10 - 服务器错误<br>###无###门禁用人脸登录<br>###{<br>string facesImage: base64编码的图片<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>object data：<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;int userId：用户Id<br>&nbsp;&nbsp;&nbsp;&nbsp;string name：姓名<br>&nbsp;&nbsp;}<br>}<br>错误代码：<br>0x00 - 处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 参数错误<br>--0x03 - mac地址不在数据库中<br>0x1? - 照片问题<br>--0x11 - 没有人脸<br>--0x12 - 多张人脸<br>0x2? - 系统错误<br>--0x21 - 引擎初始化错误<br>----0x211 - 检测引擎初始化错误<br>----0x212 - 识别引擎初始化错误<br>--0x22 - 检测函数错误<br>--0x23 - 识别函数错误<br>--0x24 - 比较函数错误<br>###0x03错误时，到数据库的client表中添加自己的mac地址，5分钟内生效<br>###测试用人脸检测<br>###{<br>string facesImage：base64编码的图片<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>string data：base64编码的裁剪后的人脸图片<br>}<br>错误代码：<br>0x00 - 处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 参数错误<br>0x1? - 照片问题<br>--0x11 - 没有人脸<br>--0x12 - 多张人脸<br>0x2? - 系统错误<br>--0x21 - 引擎初始化错误<br>----0x211 - 检测引擎初始化错误<br>--0x22 - 检测函数错误<br>###无<br>###获取通过该账号注册的用户<br>###无参数<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;int id: 待确认用户Id，与用户Id完全不是一回事<br>&nbsp;&nbsp;&nbsp;&nbsp;string name: 姓名<br>&nbsp;&nbsp;&nbsp;&nbsp;int privilegeId: 权限Id<br>&nbsp;&nbsp;&nbsp;&nbsp;string inTime: 注册时间<br>&nbsp;&nbsp;&nbsp;&nbsp;int validDays: 有效时间，仅针对访客<br>&nbsp;&nbsp;&nbsp;&nbsp;int allowRegister: 是否继承开放邀请码权限<br>&nbsp;&nbsp;&nbsp;&nbsp;string phone: 手机号码<br>&nbsp;&nbsp;&nbsp;&nbsp;string faceImage: base64编码的脸部照片<br>&nbsp;&nbsp;}<br>}<br>###无<br>###修改一个通过该账号注册的用户的部分信息<br>###{<br>int userId: 要修改的用户Id<br>[string name]: 姓名<br>[int privilege]: 权限Id<br>[int validDays]: 有效时间<br>[int allowRegister]：是否允许邀请，0否，1是<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：没有意义<br>}<br>错误代码：<br>0x00：处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>--0x03 - 参数错误<br>0x1X - 服务器错误<br>--0x10 - 修改失败，可能用户不存在或权限不足（不是通过当前登录账号注册）<br>###无<br>###删除一个待确认注册用户<br>###{<br>int userId：要删除的用户Id<br>}<br>###{<br>int code：错误代码<br>string message：错误信息<br>struct data：没有意义<br>}<br>错误代码：<br>0x00：处理完成<br>0x0X - 非法请求<br>--0x01 - 非POST请求<br>--0x02 - 权限不足<br>--0x03 - 参数错误<br>0x1X - 服务器错误<br>--0x10 - 删除失败，可能用户不存在或权限不足（不是通过当前登录账号注册）<br>###无';
+    data = data.split('###');
+    console.log(data);
+    var f = $('#function');
+    var p = $('#parameter');
+    var r = $('#returnValue');
+    var o = $('#others');
+    var s = $('#selectApi');
+    s.bind('change',
+        function() {
+            var i = this.selectedIndex;
+            f.html(data[i * 4]);
+            p.html(data[i * 4 + 1]);
+            r.html(data[i * 4 + 2]);
+            o.html(data[i * 4 + 3]);
+        });
+
+    f.html(data[0]);
+    p.html(data[1]);
+    r.html(data[2]);
+    o.html(data[3]);
+</script>
+</body>
+</html>

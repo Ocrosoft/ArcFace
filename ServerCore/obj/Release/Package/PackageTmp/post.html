@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>测试用post页面</title>
+</head>
+<body>
+<form id="postForm" action="." method="post">
+    <input id="inputLink" type="text" value="/Api/FaceRegister.ashx"/><br>
+    <input type="text" name="facesImage" value="base64编码的图片"/><br>
+    <input id="submitButton" type="button" value="发送请求"/>
+</form>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+    $('#submitButton').bind('click', function()
+    {
+        $('#postForm').attr('action', $('#inputLink').val());
+        $('#postForm').submit();
+    });
+</script>
+</body>
+</html>
